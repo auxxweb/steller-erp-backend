@@ -23,6 +23,8 @@ const env = {
   jwtResetExpiresIn: process.env.JWT_RESET_EXPIRES_IN || '1h',
 
   corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  /** When true, allows any https://<user>.github.io origin (GitHub Pages). */
+  corsAllowGithubPages: process.env.CORS_ALLOW_GITHUB_PAGES === 'true',
   bcryptSaltRounds: Number(process.env.BCRYPT_SALT_ROUNDS) || 12,
 
   passwordResetExpiresMs: Number(process.env.PASSWORD_RESET_EXPIRES_MS) || 60 * 60 * 1000,

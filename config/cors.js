@@ -5,14 +5,20 @@ const allowedOrigins = env.corsOrigin
   .map((origin) => origin.trim())
   .filter(Boolean);
 
+/** GitHub Pages project sites send Origin: https://<user>.github.io (no repo path). */
+const GITHUB_PAGES_ORIGIN_RE = /^https:\/\/[a-zA-Z0-9-]+\.github\.io$/;
+
+function isOriginAllowed(origin) {
+  if (!origin) return true;
+  if (allowedOrigins.includes('*')) return true;
+  if (allowedOrigins.includes(origin)) return true;
+  if (env.corsAllowGithubPages && GITHUB_PAGES_ORIGIN_RE.test(origin)) return true;
+  return false;
+}
+
 const corsOptions = {
   origin(origin, callback) {
-    // Allow non-browser clients (mobile apps, Postman)
-    if (!origin) {
-      return callback(null, true);
-    }
-
-    if (allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+    if (isOriginAllowed(origin)) {
       return callback(null, true);
     }
 
