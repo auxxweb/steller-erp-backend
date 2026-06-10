@@ -41,7 +41,6 @@ const customerSchema = new mongoose.Schema(
     phoneNormalized: {
       type: String,
       trim: true,
-      index: true,
     },
     alternatePhone: { type: String, trim: true, maxlength: 20 },
     address: addressSchema,

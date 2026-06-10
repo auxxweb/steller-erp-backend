@@ -31,13 +31,11 @@ const productUnitSchema = new mongoose.Schema(
         uploadedAt: { type: Date, default: Date.now },
       },
     ],
-    barcode: { type: String, trim: true, sparse: true },
+    barcode: { type: String, trim: true },
     qrCode: { type: String, trim: true },
     qrPayload: {
       type: String,
       trim: true,
-      unique: true,
-      sparse: true,
     },
     assetTag: { type: String, trim: true, uppercase: true },
     location: {
@@ -76,7 +74,7 @@ productUnitSchema.index({ branch: 1, serialNumber: 1 }, { unique: true });
 productUnitSchema.index({ branch: 1, product: 1, status: 1 });
 productUnitSchema.index({ barcode: 1 }, { sparse: true });
 productUnitSchema.index({ status: 1, branch: 1 });
-productUnitSchema.index({ qrPayload: 1 }, { sparse: true });
+productUnitSchema.index({ qrPayload: 1 }, { unique: true, sparse: true });
 
 productUnitSchema.methods.toPublicJSON = function toPublicJSON() {
   const product = this.product;
